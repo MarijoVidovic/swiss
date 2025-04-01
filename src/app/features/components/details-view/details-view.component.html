@@ -1,0 +1,26 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="true" [responsive]="true" (onHide)="close()" [closeOnEscape]="true">
+  <p-header> Product Details </p-header>
+  
+  <div style="padding: 10px;">
+    <p><strong>Name:</strong> {{ product?.name }}</p>
+    <p><strong>Brand:</strong> {{ product?.brand }}</p>
+  </div>
+
+  <div *ngIf="product" style="min-height: 200px; max-height: 400px; overflow-y: auto; min-width: 720px;">
+    <div style="overflow-y: auto; min-width: 400px;">
+      <ng-container *ngFor="let price of product.prices">
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; padding: 10px;">
+          <p><strong>Price:</strong> {{ price.price | number : '1.2-2' }}</p>
+          <p><strong>Shop:</strong> {{ price.shop }}</p>
+          <p><a [href]="price.link" target="_blank">Go to Shop</a></p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <p-chart 
+    type="pie" 
+    [data]="chartData" 
+    [options]="chartOptions" 
+    style="max-width: 150px; height: 75px; margin: 0 auto;"></p-chart>
+</p-dialog>

@@ -1,0 +1,47 @@
+<p-table
+  [value]="(products$ | async) ?? []"
+  selectionMode="single"
+  [(selection)]="selectedProduct"
+  [metaKeySelection]="metaKey"
+  dataKey="id"
+  (onRowSelect)="onRowSelect($event)"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template #header>
+    <tr>
+      <th (click)="sortProducts('name')" pSortableColumn="name">
+        <p-sortIcon field="name" />Name
+      </th>
+      <th (click)="sortProducts('brand')" pSortableColumn="brand">
+        <p-sortIcon field="brand" />Brand
+      </th>
+      <th
+        (click)="sortProducts('lowestPricePer100g')"
+        pSortableColumn="lowestPricePer100g"
+      >
+        <p-sortIcon field="lowestPricePer100g" />Lowest Price (€)
+      </th>
+      <th
+        (click)="sortProducts('averagePricePer100g')"
+        pSortableColumn="averagePricePer100g"
+      >
+        <p-sortIcon field="averagePricePer100g" />Average Price (€)
+      </th>
+      <th>Cheapest Shop</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr [pSelectableRow]="product">
+      <td>{{ product.name }}</td>
+      <td>{{ product.brand }}</td>
+      <td [ngClass]="{
+        'highlight-price': product.id === cheapestProduct?.id
+      }">{{ product.lowestPricePer100g }}</td>
+      <td>{{ product.averagePricePer100g }}</td>
+      <td>{{ product.cheapestShopLink }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<app-details-view></app-details-view>
